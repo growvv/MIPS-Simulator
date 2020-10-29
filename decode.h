@@ -16,8 +16,7 @@
 #define LUI  0b001111		//LUI   => 15	
 #define SYSCALL 0b001100	//SYSCALL=>12	
 
-void encode(uint32_t instruction);
-void decode(uint32_t instructions);
+void execute_single(uint32_t instruction, int trace_mode);
 
 
 #endif		//End of file

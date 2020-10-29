@@ -20,7 +20,9 @@
 
 
 // ADD YOUR #defines HERE
-
+int n_instructions;
+uint32_t *instructions;
+int trace_mode;
 
 void execute_instructions(int n_instructions,
 	uint32_t* instructions,
@@ -35,11 +37,12 @@ uint32_t *instructions_realloc(uint32_t *instructions, int n_instructions);
 // YOU SHOULD NOT NEED TO CHANGE MAIN
 
 int main(int argc, char *argv[]) {
-	int trace_mode;
+	//int trace_mode;
 	char *filename = process_arguments(argc, argv, &trace_mode);
 
-	int n_instructions;
-	uint32_t *instructions = read_instructions(filename, &n_instructions);
+	//int n_instructions;
+	//uint32_t *
+	instructions = read_instructions(filename, &n_instructions);
 
 	init_reg_file();
 	//PC = 0;

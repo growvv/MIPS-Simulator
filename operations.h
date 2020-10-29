@@ -2,6 +2,7 @@
 #define OPERATIONS_H_INCLUDED
 
 #include "registers.h"
+#include "mips_sim.h"
 #include<stdint.h>
 
 //R type instruction
