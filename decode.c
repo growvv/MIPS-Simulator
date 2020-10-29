@@ -1,6 +1,13 @@
 #include "decode.h"
 #include "operations.h"
 
+int16_t get_complement(int16_t imm)
+{
+	if (imm < 0)
+		imm = (~(-imm)) + 1;   
+	return imm;
+}
+
 void execute_single(uint32_t instruction, int trace_mode)
 {
 	int op = instruction >> 26;
@@ -10,7 +17,7 @@ void execute_single(uint32_t instruction, int trace_mode)
 	int shamt = (instruction >> 6) & 0x1F;
 	int funct = instruction & 0x3F;
 
-	int imm = instruction & 0xFFFF;
+	int imm = get_complement(instruction & 0xFFFF);
 
 	switch(op)     // according to opcode and funct
 	{

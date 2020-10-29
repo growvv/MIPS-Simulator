@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #ifndef REGISTERS_H_INCLUDED
 #define REGISTERS_H_INCLUDED
 
