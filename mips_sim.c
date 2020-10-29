@@ -18,7 +18,6 @@
 #define MAX_LINE_LENGTH 256
 #define INSTRUCTIONS_GROW 64
 
-extern int PC = 0;
 
 // ADD YOUR #defines HERE
 
@@ -43,6 +42,7 @@ int main(int argc, char *argv[]) {
 	uint32_t *instructions = read_instructions(filename, &n_instructions);
 
 	init_reg_file();
+	//PC = 0;
 
 	execute_instructions(n_instructions, instructions, trace_mode);
 
@@ -65,14 +65,7 @@ void execute_instructions(int n_instructions,
 
 
 	while (PC < n_instructions) {
-		if (trace_mode) {
-			printf("%d: 0x%08X\n", PC, instructions[PC]);
-			PC++;
-		}
-		else
-		{
-			execute_single(instructions[PC]);
-		}
+		execute_single(instructions[PC], trace_mode);
 	}
 }
 

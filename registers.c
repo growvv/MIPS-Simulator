@@ -1,12 +1,13 @@
 #include "registers.h"
 
 struct reg reg_file[32];
+int PC;
 
 void init_reg_file()
 {
 	// Initialises the register file. This function should be called 
 	// before the first time the registerfile is accessed.	
-
+	PC = 0;
 
 	strcpy(reg_file[0].name, "zero");
 	strcpy(reg_file[1].name, "at");

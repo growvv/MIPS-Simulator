@@ -54,14 +54,12 @@ void bne(int rs, int rt, int imm)
 void addi(int rs, int rt, int imm)
 {
 	int a = reg_file[rs].val;
-	int b = reg_file[rt].val;
 	reg_file[rt].val = a + imm;
 	PC++;
 }
 void ori(int rs, int rt, int imm)
 {
 	int a = reg_file[rs].val;
-	int b = reg_file[rt].val;
 	reg_file[rt].val = a | imm;
 	PC++;
 }
@@ -73,11 +71,12 @@ void lui(int rt, int imm)
 }
 
 // Syscall
-void syscall()
+void syscall(int trace_mode)
 {
 	if (reg_file[2].val == 1)		// if $v0=1, print integer
 	{
-		printf("<<< %d\n", reg_file[4].val);
+		if(trace_mode)  printf("<<< %d\n", reg_file[4].val);
+		else  printf("%d\n", reg_file[4].val);
 	}
 	else if (reg_file[2].val == 10)  // if $v0=10, exit
 	{
@@ -85,7 +84,8 @@ void syscall()
 	}
 	else if (reg_file[2].val == 11)	// if $v0=11, print character
 	{
-		printf("<<< %c\n", reg_file[4].val & 0xFF);
+		if(trace_mode)  printf("<<< %c\n", reg_file[4].val & 0xFF);
+		else  printf("%c\n", reg_file[4].val & 0xFF);
 	}
 	else
 	{
