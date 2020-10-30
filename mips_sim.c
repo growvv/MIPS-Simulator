@@ -96,7 +96,7 @@ int16_t get_complement(int16_t imm)
 	return imm;
 }
 
-void execute_single(uint32_t* instructions, int trace_mode, int *PC, int **reg_file)
+void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_file)
 {
 	uint32_t instruction = instructions[*PC];
 	int op = instruction >> 26;
