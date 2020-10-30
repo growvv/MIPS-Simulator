@@ -112,7 +112,7 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 	case 0:
 		if (shamt != 0)
 		{
-			printf("invalid instruction code\n");
+			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
 			//break;
 			exit(1);
 		}
@@ -132,12 +132,12 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 				syscall(trace_mode, PC, instructions, reg_file);
 			else
 			{
-				printf("invalid instruction code\n");
+				printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
 				exit(1);
 			}
 			break;
 		default:
-			printf("invalid instruction code\n");
+			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
 			//break;
 			exit(1);
 		}
@@ -147,7 +147,7 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 			mul(rd, rs, rt, trace_mode, PC, instructions, reg_file);
 		else
 		{
-			printf("invalid instruction code\n");
+			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
 			exit(1);
 		}
 		break;
@@ -167,7 +167,7 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 		lui(rt, imm, trace_mode, PC, instructions, reg_file);
 		break;
 	default:
-		printf("invalid instruction code\n");
+		printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
 		//break;
 		exit(1);
 	}

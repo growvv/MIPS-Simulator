@@ -52,7 +52,7 @@ void beq(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instruction
 	else
 	{
 		(*PC)++;
-		if (trace_mode)  printf("branch not taken\n");
+		if (trace_mode)  printf(">>> branch not taken\n");
 	}
 
 }
