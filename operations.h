@@ -1,24 +1,22 @@
 #ifndef OPERATIONS_H_INCLUDED
 #define OPERATIONS_H_INCLUDED
 
-#include "registers.h"
-#include "mips_sim.h"
 #include<stdint.h>
 
 //R type instruction
-void add(int dest, int rs, int rt);
-void sub(int dest, int rs, int rt);
-void slt(int dest, int rs, int rt);
-void mul(int dest, int rs, int rt);
+void add(int dest, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void sub(int dest, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void slt(int dest, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void mul(int dest, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
 
 // J type instruction
-void beq(int rs, int rt, int imm);
-void bne(int rs, int rt, int imm);
-void addi(int rs, int rt, int imm);
-void ori(int rs, int rt, int imm);
-void lui(int rt, int imm);
+void beq(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void bne(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void addi(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void ori(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
+void lui(int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
 
 // Syscall
-void syscall();
+void syscall(int trace_mode, int *PC, uint32_t *instructions, int *reg_file);
 
 #endif		//End of file

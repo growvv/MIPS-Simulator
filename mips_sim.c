@@ -20,9 +20,19 @@
 
 
 // ADD YOUR #defines HERE
-int n_instructions;
-uint32_t *instructions;
-int trace_mode;
+
+// Defining opcodes/func
+#define ADD 0b100000		//ADD   => 32
+#define SUB 0b100010		//SUB   => 34
+#define SLT 0b101010		//SLT   => 42
+#define MUL_op    0b011100		// MUL_op = 28
+#define MUL_funct 0b000010		// MUL_funt = 2
+#define BEQ  0b000100		//BEQ   => 4	
+#define BNE  0b000101		//BEQ   => 5	
+#define ADDI 0b001000		//ADDI  => 8
+#define	ORI  0b001101		//ORI   => 13	
+#define LUI  0b001111		//LUI   => 15	
+#define SYSCALL 0b001100	//SYSCALL=>12	
 
 void execute_instructions(int n_instructions,
 	uint32_t* instructions,
@@ -33,19 +43,18 @@ uint32_t *instructions_realloc(uint32_t *instructions, int n_instructions);
 
 
 // ADD YOUR FUNCTION PROTOTYPES HERE
+int16_t get_complement(int16_t imm);
+void execute_single(uint32_t* instructions, int trace_mode, int *PC, int **reg_file);
+
 
 // YOU SHOULD NOT NEED TO CHANGE MAIN
 
 int main(int argc, char *argv[]) {
-	//int trace_mode;
+	int trace_mode;
 	char *filename = process_arguments(argc, argv, &trace_mode);
 
-	//int n_instructions;
-	//uint32_t *
-	instructions = read_instructions(filename, &n_instructions);
-
-	init_reg_file();
-	//PC = 0;
+	int n_instructions;
+	uint32_t *instructions = read_instructions(filename, &n_instructions);
 
 	execute_instructions(n_instructions, instructions, trace_mode);
 
@@ -63,12 +72,16 @@ int main(int argc, char *argv[]) {
 // execution stops if it reaches the end of the array
 
 void execute_instructions(int n_instructions,
-	uint32_t* instructions,
+	uint32_t *instructions,
 	int trace_mode) {
 
+	int reg_file[32];
+	int PC = 0;
+	for (int i = 0; i < 32; i++)
+		reg_file[i] = 0;
 
 	while (PC < n_instructions) {
-		execute_single(instructions[PC], trace_mode);
+		execute_single(instructions, trace_mode, &PC, reg_file);
 	}
 }
 
@@ -76,6 +89,81 @@ void execute_instructions(int n_instructions,
 
 // ADD YOUR FUNCTIONS HERE
 
+int16_t get_complement(int16_t imm)
+{
+	if (imm < 0)
+		imm = (~(-imm)) + 1;
+	return imm;
+}
+
+void execute_single(uint32_t* instructions, int trace_mode, int *PC, int **reg_file)
+{
+	uint32_t instruction = instructions[*PC];
+	int op = instruction >> 26;
+	int rs = (instruction >> 21) & 0x1F;
+	int rt = (instruction >> 16) & 0x1F;
+	int rd = (instruction >> 11) & 0x1F;
+	int shamt = (instruction >> 6) & 0x1F;
+	int funct = instruction & 0x3F;
+
+	int imm = get_complement(instruction & 0xFFFF);
+
+	switch (op)     // according to opcode and funct
+	{
+	case 0:
+		if (shamt != 0)
+		{
+			printf("invalid instruction code\n");
+			break;
+		}
+		switch (funct)
+		{
+		case ADD:
+			add(rd, rs, rt, trace_mode, PC, instructions, reg_file);
+			break;
+		case SUB:
+			sub(rd, rs, rt, trace_mode, PC, instructions, reg_file);
+			break;
+		case SLT:
+			slt(rd, rs, rt, trace_mode, PC, instructions, reg_file);
+			break;
+		case SYSCALL:
+			if (rs == 0 && rt == 0 && rd == 0 && shamt == 0)
+				syscall(trace_mode, PC, instructions, reg_file);
+			else
+				printf("invalid instruction code\n");
+			break;
+		default:
+			printf("invalid instruction code\n");
+			break;
+		}
+		break;
+	case MUL_op:
+		if (shamt == 0 && funct == MUL_funct)
+			mul(rd, rs, rt, trace_mode, PC, instructions, reg_file);
+		else
+			printf("invalid instruction code\n");
+		break;
+	case BEQ:
+		beq(rs, rt, imm, trace_mode, PC, instructions, reg_file);
+		break;
+	case BNE:
+		bne(rs, rt, imm, trace_mode, PC, instructions, reg_file);
+		break;
+	case ADDI:
+		addi(rs, rt, imm, trace_mode, PC, instructions, reg_file);
+		break;
+	case ORI:
+		ori(rs, rt, imm, trace_mode, PC, instructions, reg_file);
+		break;
+	case LUI:
+		lui(rt, imm, trace_mode, PC, instructions, reg_file);
+		break;
+	default:
+		printf("invalid instruction code\n");
+		break;
+	}
+}
 
 
 // YOU DO NOT NEED TO CHANGE CODE BELOW HERE
