@@ -11,8 +11,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include "registers.h"
-#include "decode.h"
+#include "operations.h"
 
 
 #define MAX_LINE_LENGTH 256
@@ -44,7 +43,7 @@ uint32_t *instructions_realloc(uint32_t *instructions, int n_instructions);
 
 // ADD YOUR FUNCTION PROTOTYPES HERE
 int16_t get_complement(int16_t imm);
-void execute_single(uint32_t* instructions, int trace_mode, int *PC, int **reg_file);
+void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_file);
 
 
 // YOU SHOULD NOT NEED TO CHANGE MAIN
