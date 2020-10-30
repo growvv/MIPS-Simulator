@@ -3,7 +3,7 @@
 void add(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
 	// 0: 0x34100004 ori  $16, $0, 4
-	if(trace_mode)  printf("%d: 0x%08X add $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
+	if(trace_mode)  printf("%d: 0x%08X add  $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	reg_file[rd] = a + b;
@@ -12,7 +12,7 @@ void add(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions
 }
 void sub(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if(trace_mode)  printf("%d: 0x%08X sub $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
+	if(trace_mode)  printf("%d: 0x%08X sub  $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	reg_file[rd] = a - b;
@@ -21,7 +21,7 @@ void sub(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions
 }
 void slt(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X slt $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
+	if (trace_mode)  printf("%d: 0x%08X slt  $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	reg_file[rd] = a < b;
@@ -30,7 +30,7 @@ void slt(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions
 }
 void mul(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode) printf("%d: 0x%08X mul $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
+	if (trace_mode) printf("%d: 0x%08X mul  $%d, $%d, $%d\n", *PC, instructions[*PC], rd, rs, rt);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	reg_file[rd] = a * b;
@@ -41,7 +41,7 @@ void mul(int rd, int rs, int rt, int trace_mode, int *PC, uint32_t *instructions
 // J type instructions[*PC]
 void beq(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X beq $%d, $%d, %d\n", *PC, instructions[*PC], rs, rt, imm);
+	if (trace_mode)  printf("%d: 0x%08X beq  $%d, $%d, %d\n", *PC, instructions[*PC], rs, rt, imm);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	if (a == b)
@@ -58,7 +58,7 @@ void beq(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instruction
 }
 void bne(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X bne $%d, $%d, %d\n", *PC, instructions[*PC], rs, rt, imm);
+	if (trace_mode)  printf("%d: 0x%08X bne  $%d, $%d, %d\n", *PC, instructions[*PC], rs, rt, imm);
 	int a = reg_file[rs];
 	int b = reg_file[rt];
 	if (a != b)
@@ -75,7 +75,7 @@ void bne(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instruction
 }
 void addi(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X addi $%d, $%d, %d\n", *PC, instructions[*PC], rt, rs, imm);
+	if (trace_mode)  printf("%d: 0x%08X addi  $%d, $%d, %d\n", *PC, instructions[*PC], rt, rs, imm);
 	int a = reg_file[rs];
 	reg_file[rt] = a + imm;
 	(*PC)++;
@@ -83,7 +83,7 @@ void addi(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructio
 }
 void ori(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X ori $%d, $%d, %d\n", *PC, instructions[*PC], rt, rs, imm);
+	if (trace_mode)  printf("%d: 0x%08X ori  $%d, $%d, %d\n", *PC, instructions[*PC], rt, rs, imm);
 	int a = reg_file[rs];
 	reg_file[rt] = a | imm;
 	(*PC)++;
@@ -91,7 +91,7 @@ void ori(int rs, int rt, int imm, int trace_mode, int *PC, uint32_t *instruction
 }
 void lui(int rt, int imm, int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 {
-	if (trace_mode)  printf("%d: 0x%08X lui $%d, %d\n", *PC, instructions[*PC], rt, imm);
+	if (trace_mode)  printf("%d: 0x%08X lui  $%d, %d\n", *PC, instructions[*PC], rt, imm);
 	int a = reg_file[rt];
 	reg_file[rt] = imm << 16;
 	(*PC)++;
@@ -121,6 +121,7 @@ void syscall(int trace_mode, int *PC, uint32_t *instructions, int *reg_file)
 	else
 	{
 		printf("Unknown system call: %d\n", reg_file[2]);
+		exit(1);
 	}
 	(*PC)++;
 }

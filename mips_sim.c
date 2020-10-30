@@ -113,7 +113,8 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 		if (shamt != 0)
 		{
 			printf("invalid instruction code\n");
-			break;
+			//break;
+			exit(1);
 		}
 		switch (funct)
 		{
@@ -130,18 +131,25 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 			if (rs == 0 && rt == 0 && rd == 0 && shamt == 0)
 				syscall(trace_mode, PC, instructions, reg_file);
 			else
+			{
 				printf("invalid instruction code\n");
+				exit(1);
+			}
 			break;
 		default:
 			printf("invalid instruction code\n");
-			break;
+			//break;
+			exit(1);
 		}
 		break;
 	case MUL_op:
 		if (shamt == 0 && funct == MUL_funct)
 			mul(rd, rs, rt, trace_mode, PC, instructions, reg_file);
 		else
+		{
 			printf("invalid instruction code\n");
+			exit(1);
+		}
 		break;
 	case BEQ:
 		beq(rs, rt, imm, trace_mode, PC, instructions, reg_file);
@@ -160,7 +168,8 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 		break;
 	default:
 		printf("invalid instruction code\n");
-		break;
+		//break;
+		exit(1);
 	}
 }
 
