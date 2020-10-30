@@ -82,6 +82,9 @@ void execute_instructions(int n_instructions,
 	while (PC < n_instructions && PC >= 0) {
 		execute_single(instructions, trace_mode, &PC, reg_file);
 	}
+
+	if (PC < 0 || PC >= n_instructions)
+		printf("Illegal branch to address before instructions: PC = %d\n", PC);
 }
 
 
