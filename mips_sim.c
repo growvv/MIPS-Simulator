@@ -79,7 +79,7 @@ void execute_instructions(int n_instructions,
 	for (int i = 0; i < 32; i++)
 		reg_file[i] = 0;
 
-	while (PC < n_instructions) {
+	while (PC < n_instructions && PC >= 0) {
 		execute_single(instructions, trace_mode, &PC, reg_file);
 	}
 }
@@ -112,7 +112,8 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 	case 0:
 		if (shamt != 0)
 		{
-			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			if(trace_mode)  printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			else   printf("invalid instruction code\n");
 			//break;
 			exit(1);
 		}
@@ -132,12 +133,14 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 				syscall(trace_mode, PC, instructions, reg_file);
 			else
 			{
-				printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+				if(trace_mode)  printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+				else   printf("invalid instruction code\n");
 				exit(1);
 			}
 			break;
 		default:
-			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			if(trace_mode)  printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			else   printf("invalid instruction code\n");
 			//break;
 			exit(1);
 		}
@@ -147,7 +150,8 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 			mul(rd, rs, rt, trace_mode, PC, instructions, reg_file);
 		else
 		{
-			printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			if(trace_mode)  printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+			else   printf("invalid instruction code\n");
 			exit(1);
 		}
 		break;
@@ -167,7 +171,8 @@ void execute_single(uint32_t* instructions, int trace_mode, int *PC, int *reg_fi
 		lui(rt, imm, trace_mode, PC, instructions, reg_file);
 		break;
 	default:
-		printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+		if(trace_mode)  printf("%d: 0x%08X invalid instruction code\n", *PC, instruction);
+		else   printf("invalid instruction code\n");
 		//break;
 		exit(1);
 	}
