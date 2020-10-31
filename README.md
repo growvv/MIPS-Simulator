@@ -4,11 +4,11 @@
 
 详见[COMP1521 20T3](https://cgi.cse.unsw.edu.au/~cs1521/20T3/assignments/ass1/index.html)
 
-只涉及一下10条指令
+只涉及以下10条指令
 
 ![](https://cdn.jsdelivr.net/gh/growvv/image-bed/images/20201031103047.png)
 
-测试
+## 测试
 
 trace_mode
 
@@ -20,6 +20,6 @@ trace_mode
 ./mips_sim -r examples/42.hex
 ```
 
-Reference
+## Reference
 
 [MIPS-simulator](https://github.com/rajatkhanduja/MIPS-simulator)
