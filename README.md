@@ -19,3 +19,7 @@ trace_mode
 ```bash
 ./mips_sim -r examples/42.hex
 ```
+
+Reference
+
+[MIPS-simulator](https://github.com/rajatkhanduja/MIPS-simulator)
